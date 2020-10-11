@@ -273,3 +273,30 @@ if [ $Sudo1 -eq 0 ]
 	else
 		echo "FAIL" | awk '{printf("%53s\n",$1);}'
 fi
+
+echo -e "Section 1.3.2 (sudo pty):\c"
+grep -v \# /etc/sudoers | grep use_pty 1>/dev/null 2>&1 ; Sudo1=$?
+if [ $Sudo1 -eq 0 ]
+	then
+		echo "PASS" | awk '{printf("%49s\n",$1);}'
+	else
+		echo "FAIL" | awk '{printf("%49s\n",$1);}'
+fi
+
+echo -e "Section 1.3.3 (sudo log):\c"
+grep -v \# /etc/sudoers | grep logfile 1>/dev/null 2>&1 ; Sudo2=$?
+if [ $Sudo2 -eq 0 ]
+	then
+		echo "PASS" | awk '{printf("%49s\n",$1);}'
+	else
+		echo "FAIL" | awk '{printf("%49s\n",$1);}'
+fi
+
+echo -e "Section 1.4.1 (aide):\c"
+which aide 1>/dev/null ; Aide1=$?
+if [ $Aide1 -eq 0 -a -f /var/lib/aide/aide* ]
+	then
+		echo "PASS" | awk '{printf("%53s\n",$1);}'
+	else
+		echo "FAIL" | awk '{printf("%53s\n",$1);}'
+fi
