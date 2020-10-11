@@ -1,0 +1,56 @@
+#
+# *** Purpose
+#       1. Check SUDO activity
+#
+# *** Author
+#       1. Masood
+#
+# *** Version
+#       1. v0.1 15-04-2020
+#
+# *** General
+umask 022
+Mth=`date '+%b'`
+#
+# *** Check user
+if [ "${LOGNAME}" != "root" ]
+        then
+                echo ""
+                echo "Need Super-user. Exiting"
+                echo ""
+                exit 1
+        else
+                :
+fi
+if [ -f /var/log/sudo.log ]
+	then
+		:
+	else
+		echo ""
+		echo "SUDO log is not configured or missing"
+		grep "Defaults logfile" /etc/sudoers 1>/dev/null
+		if [ $? -ne 0 ]
+			then
+				echo ""
+				echo "Logging is not configured in SUDO"
+				echo ""
+				exit 1
+			else
+				:
+		fi
+fi
+# #
+# *** Banner
+echo ""
+echo "Local account SUDO activity report dated : `date`"
+echo "Report for month of ${Mth}"
+echo "SUDO_date  Login_name" | awk '{printf("%-40s %s\n", $1,$2);}'
+echo "=========   =========" | awk '{printf("%-40s %s\n", $1,$2);}'
+echo ""
+sed 's/ : /;/g' /var/log/sudo.log | grep "^${Mth}" | \
+	awk -F";" '{printf("%s : %s\n",$1,$2);}' | \
+	sed 's/ \+/ /g' | sed 's/ : / ; /g' | \
+	awk -F";" '{printf("%-39s %s\n",$1,$2);}'
+echo ""
+echo "End of SUDO report"
+echo ""

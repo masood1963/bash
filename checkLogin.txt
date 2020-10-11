@@ -1,0 +1,57 @@
+#
+# *** Purpose
+#       1. Identify login names which has an interactive shell
+#       2. Display last password change date
+#
+# *** Author
+#       1. Masood
+#
+# *** Version
+#       1. v0.1 15-04-2020
+#
+# *** General
+umask 022
+mthB=`date '+%b'`
+#
+# *** Check user
+if [ "${LOGNAME}" != "root" ]
+        then
+                echo ""
+                echo "Need Super-user. Exiting"
+                echo ""
+                exit 1
+        else
+                :
+fi
+#
+# *** Banner
+echo ""
+echo "Local account last password change report `date`"
+echo ""
+echo "Login_name Last_change" | awk '{printf("%-40s %s\n", $1, $2);}'
+echo "========== ===========" | awk '{printf("%-40s %s\n", $1, $2);}'
+#
+# *** List applicable logins
+for Name in `grep "sh$" /etc/passwd | cut -d":" -f1 `
+do
+        Date=`chage --list ${Name} | grep "^Last password change" | awk -F: '{print($2)}'`
+	oldMonth=`echo $Date | grep -v never | awk '{print($1);}'`
+	backOne=`date -d "1 month ago" +%b`
+	backTwo=`date -d "2 month ago" +%b`
+	backThree=`date -d "3 month ago" +%b`
+	backZero=`date +%b`
+
+	if [ "${oldMonth}" == "$backZero" -o "${oldMonth}" == "${backOne}" -o "${oldMonth}" == "${backTwo}" -o "${oldMonth}" == "${backThree}" ]
+		then
+			:
+		else
+			Date=`echo "${Date}***"`
+	fi
+	
+        echo "$Name $Date" | awk '{printf("%-40s %s %s %s\n",$1,$2,$3,$4);}'
+done
+
+echo ""
+echo "Login_names marked with *** is due for password update"
+echo "End of report"
+echo ""
