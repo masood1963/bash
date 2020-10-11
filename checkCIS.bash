@@ -243,3 +243,33 @@ if [ -d /etc/yum.repos.d ]
 		echo "FAIL" | \
 		awk '{printf("%s\n",$1);}'
 fi
+
+echo -e "Section 1.2.3 (gpgcheck):\c"
+if [ -f /etc/yum.conf ]
+	then
+		grep "gpgcheck=1" /etc/yum.conf 1>/dev/null 2>&1 ; Yum1=$?
+		if [ $Yum1 -eq 0 ]
+			then
+				echo "PASS" | awk '{printf("%s\n",$1);}'	
+			else
+				echo "FAIL" | awk '{printf("%s\n",$1);}'	
+		fi
+	else
+		echo "FAIL" | awk '{printf("%49s\n",$1);}'	
+fi
+
+echo -e "Section 1.2.4 (RHEL registration):\c"
+echo "DEFFERED" | awk '{printf("%44s\n",$1);}'
+
+echo -e "Section 1.2.5 (rhnsd):\c"
+systemctl disable rhnsd 1>/dev/null 2>&1
+echo "ENFORCED" | awk '{printf("%56s\n",$1);}'
+
+echo -e "Section 1.3.1 (sudo):\c"
+which sudo 1>/dev/null 2>&1 ; Sudo1=$?
+if [ $Sudo1 -eq 0 ]
+	then
+		echo "PASS" | awk '{printf("%53s\n",$1);}'
+	else
+		echo "FAIL" | awk '{printf("%53s\n",$1);}'
+fi
