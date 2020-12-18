@@ -76,7 +76,7 @@ do
 			if [ -d /data/cc-seab-sxm-uat-infra ]
 				then
 					cd /data/cc-seab-sxm-uat-infra
-					# /usr/bin/git pull https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/cc-seab-sxm-uat-infra
+					/usr/bin/git pull https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/cc-seab-sxm-uat-infra
 				else
 					echo ""
 					echo -e "\tMAJOR ISSUE /data/cc-seab-sxm-uat-infra missing"
@@ -88,10 +88,10 @@ do
 			cd /data/cc-seab-sxm-uat-infra
 			echo -e "\tdescription of task: \c"
 			read myTask
-			# /usr/bin/git add --all --verbose .
+			/usr/bin/git add --all --verbose .
 			echo -e "\tcommiting with ${myTask}"
-			# /usr/bin/git commit -m "${myTask}"
-			# /usr/bin/git push --all --verbose
+			/usr/bin/git commit -m "${myTask}"
+			/usr/bin/git push --all --verbose
 			;;
 		*) break
 			;;
