@@ -3,7 +3,7 @@
 # *** purpose
 #	perform GIT operation
 # *** version
-#	v1.0 15-12-2020 property of atfmcloudops@ncs.com.sg
+#	v1.1 15-12-2020 property of atfmcloudops@ncs.com.sg
 #
 # *** General
 /usr/bin/umask 022
