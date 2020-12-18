@@ -67,7 +67,7 @@ do
 			echo -e "\tperforming GIT as ${yourName} ${yourEmail}"
 			echo -e "\tperform git CLONE"
 			echo ""
-			# /usr/bin/git clone https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/cc-seab-sxm-uat-infra
+			/usr/bin/git clone https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/cc-seab-sxm-uat-infra
 			echo ""
 			;;
 		p) echo ""
